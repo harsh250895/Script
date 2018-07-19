@@ -7,7 +7,9 @@ while [ 1 ]; do
 		if [ $each = $d ]
 		then
 			#1: background sleeps for n seconds		
-			sleep 1000s &
+			echo Enter vumber of seconds:
+			read numsec
+			sleep $numsec &
 			
 			#2: Find processes using maximum cpu and memory
 			ps -eo pid,ppid,cmd,%mem --sort=-%mem | head -n 2 >> mem_cpu.log
