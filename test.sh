@@ -13,7 +13,7 @@ while [ 1 ]; do
 			
 			#2: Find processes using maximum cpu and memory
 			ps -eo pid,ppid,cmd,%mem --sort=-%mem | head -n 2 >> mem_cpu.log
-			ps -eo pid,ppid,cmd,%mem --sort=-%cpu | head -n 2 >> mem_cpu.log
+			ps -eo pid,ppid,cmd,%cpu --sort=-%cpu | head -n 2 >> mem_cpu.log
 			
 			#3: Print all open tcp ports sorted by state
 			netstat -at |tail -n +5 | sort -k 6,6
