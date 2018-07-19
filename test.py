@@ -11,8 +11,8 @@ def backgroundSleep(sec):
 
 #2: Processes using maximum cpu and memory
 def max_mem_cpu():
-    max_mem = os.system('ps -eo pid,ppid,cmd,%mem --sort=-%mem | head -n 2 >> mem_cpu.log') 
-    max_cpu = os.system('ps -eo pid,ppid,cmd,%cpu --sort=-%cpu | head -n 2 >> mem_cpu.log')
+    os.system('ps -eo pid,ppid,cmd,%mem --sort=-%mem | head -n 2 >> mem_cpu.log') 
+    os.system('ps -eo pid,ppid,cmd,%cpu --sort=-%cpu | head -n 2 >> mem_cpu.log')
 
 #3: List of open tcp ports sorted by state
 def tcpList():
@@ -21,7 +21,7 @@ def tcpList():
     print(tcp_list)
 
 #4: Kill all sleeping processes.
-#p.s: created a log file to store a list of all sleeping process, killing all of them resulted in a system reboot for unexplained reasons. Hence, for debugging purposes. 
+#p.s: created a log file to store a list of parent pids of all sleeping process, killing all of them resulted in a system reboot. Hence, for debugging purposes. 
 def killSleepingProc():
     CMD = "ps h -eo s,ppid,comm | awk '{ if ($1 == \"S\" || $1 == \"D\") { print $2 } }' > sleep.log"
     output = subprocess.check_output(CMD, shell=True)
@@ -51,12 +51,9 @@ while True:
         t = strftime("%H:%M", gmtime())
         if each == t:
             seconds = input("Enter the number of seconds: ")
-            backgroundSleep(1000)
+            backgroundSleep(seconds)
             max_mem_cpu()
             tcpList()
             killSleepingProc()
             sleepCheck()
     os.system("sleep 10")
-
-
-
