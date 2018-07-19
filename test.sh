@@ -4,11 +4,10 @@ while [ 1 ]; do
 	for each in { 00:00 01:00 02:00 03:00 04:00 05:00 06:00 07:00 08:00 09:00 10:00 11:00 12:00 13:00 14:00 15:00 16:00 17:00 18:00 19:00 20:00 21:00 22:00 23:00}
 	do
 		d=$(date +%R)
+		numsec=1000
 		if [ $each = $d ]
 		then
 			#1: background sleeps for n seconds		
-			echo Enter vumber of seconds:
-			read numsec
 			sleep $numsec &
 			
 			#2: Find processes using maximum cpu and memory
@@ -16,7 +15,7 @@ while [ 1 ]; do
 			ps -eo pid,ppid,cmd,%cpu --sort=-%cpu | head -n 2 >> mem_cpu.log
 			
 			#3: Print all open tcp ports sorted by state
-			netstat -at |tail -n +5 | sort -k 6,6
+			netstat -at | sort -k 1,1
 			
 			#4: Killing all sleeping process
 			#Executing the below command causes the system to reboot hence commented out for debugging

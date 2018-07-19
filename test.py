@@ -2,7 +2,6 @@
 import subprocess
 import sys 
 import os
-from time import gmtime, strftime
 
 #1: Background sleep for n number of seconds
 def backgroundSleep(sec):
@@ -16,7 +15,7 @@ def max_mem_cpu():
 
 #3: List of open tcp ports sorted by state
 def tcpList():
-    tcp_l = os.popen('netstat -at | tail -n +5 | sort -k 6,6')
+    tcp_l = os.popen('netstat -vatn | sort -k 1,1')
     tcp_list = tcp_l.read()
     print(tcp_list)
 
@@ -48,9 +47,11 @@ list = ["01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00",
 #Call functions if time is on the hour every 10 seconds
 while True:
     for each in list:
-        t = strftime("%H:%M", gmtime())
-        if each == t:
-            seconds = input("Enter the number of seconds: ")
+        t = os.popen("date +%R")
+        m = t.read()
+        time = m.split()
+        if each == time[0]:
+            seconds = 1000
             backgroundSleep(seconds)
             max_mem_cpu()
             tcpList()
